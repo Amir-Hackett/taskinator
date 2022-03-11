@@ -15,4 +15,4 @@ TBD hasnt been published as of yet
 
 Once deployed the application can be viewed in a traditional desktop web browser and it is optimized for smaller screens.
 
-![screenshot of index.html](TBD)
+![screenshot of index.html](./assets/images/Screen-Shot.png)
