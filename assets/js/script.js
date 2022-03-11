@@ -1,7 +1,10 @@
-var formEl = document.querySelector("#task-form");
-var taskToDoE1 = document.querySelector("#tasks-to-do");
+// global variables
 var taskIdCounter = 0;
-var pageContentEl = document.querySelector("#page-content")
+var formEl = document.querySelector("#task-form");
+var taskToDoEl = document.querySelector("#tasks-to-do");
+var pageContentEl = document.querySelector("#page-content");
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 
 var taskFormHandler = function(event) {
     event.preventDefault();
@@ -50,7 +53,7 @@ var completeEditTask = function(taskName, taskType, taskId){
     taskSelected.querySelector("span.task-type").textContent = taskType;
 
     alert("Task Updated!");
-    formEl.removeAttribute("date-task-id");
+    formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
 };
 
@@ -75,7 +78,7 @@ var createTaskEl = function(taskDataObj) {
     listItemEl.appendChild(taskActionsE1);
 
     //add entire list item to list
-    taskToDoE1.appendChild(listItemEl)
+    taskToDoEl.appendChild(listItemEl)
 
     //increase task counter for next unique id
     taskIdCounter++;
@@ -166,7 +169,30 @@ var editTask = function(taskId) {
     formEl.setAttribute("data-task-id", taskId);  
 };
 
+var taskStatusChangeHandler = function(event){
+    //get the task item's id
+    var taskId = event.target.getAttribute("data-task-id");
+
+    //get the currently selected option's value and convert to lowercase
+    var statusValue = event.target.value.toLowerCase();
+
+    //find the parent task item element based on the id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    
+    if (statusValue === "To Do") {
+        taskToDoEl.appendChild(taskSelected);
+         }
+         else if (statusValue === "In Progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+         }
+         else if (statusValue === "Completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+        }
+};
+
 pageContentEl.addEventListener("click", taskButtonHandler);
 
-//-------------------------------This is a call back
+
 formEl.addEventListener("submit", taskFormHandler);
+
+pageContentEl.addEventListener("change", taskStatusChangeHandler);
