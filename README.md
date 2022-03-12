@@ -9,7 +9,7 @@ CSS
 JS
 
 ## Website
-TBD hasnt been published as of yet
+!https://amir-hackett.github.io/taskinator/ 
 
 ## Usage
 
