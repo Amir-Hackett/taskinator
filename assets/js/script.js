@@ -217,8 +217,52 @@ var deleteTask = function(taskId) {
   saveTasks()
 };
 
+//Saves data to local storage
 var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Gets data from local storage
+var loadTasks = function() {
+    var newTasks = localStorage.getItem("tasks");   
+    if (newTasks === null) {
+         return false;
+    }
+    
+    newTasks = JSON.parse(newTasks);
+
+    for (var i = 0; i < newTasks.length; i++){
+        newTasks[i].id = taskIdCounter
+
+        var listItemEl = document.createElement("li");
+        listItemEl.classList.add("task-item");
+        listItemEl.setAttribute("data-task-id", newTasks[i].id)
+        console.log(listItemEl)
+
+        var taskInfoEl = document.createElement("div");
+        taskInfoEl.classList.add("task-info");
+        taskInfoEl.innerHTML = "<h3 class='task-name'" + newTasks[i].name + "</h3><span class='task-type'>" + newTasks[i].type + "</span>";
+        listItemEl.appendChild(taskInfoEl)
+
+        var taskActionsEl = createTaskActions(newTasks[i].id);
+        listItemEl.appendChild(taskActionsEl)
+        console.log(listItemEl)
+
+        if (newTasks[i].status === "to do"){
+            listItemEl.querySelector("select[name='status-change']").selectedIndex === 0;
+            tasksToDoEl.appendChild(listItemEl)
+    } 
+        else if (newTasks[i].status === "in progress"){
+            listItemEl.querySelector("select[name='status-change']").selectedIndex === 1;
+            tasksInProgressEl.appendChild(listItemEl)
+    }
+        else if (newTasks[i].status === "complete") {
+            listItemEl.querySelector("select[name='status-change']").selectedIndex === 2;
+            tasksCompletedEl.appendChild(listItemEl)
+    }   
+        taskIdCounter ++;
+    console.log(listItemEl)
+    } 
 }
 
 // Create a new task
@@ -229,3 +273,5 @@ pageContentEl.addEventListener("click", taskButtonHandler);
 
 // for changing the status
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+loadTasks()
